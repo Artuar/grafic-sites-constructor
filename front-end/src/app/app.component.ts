@@ -17,10 +17,10 @@ export class AppComponent implements AfterViewInit {
     console.log('Image URL: ' + profile.getImageUrl());
     console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
 
-    // get token 
+    // get token
     const id_token = googleUser.getAuthResponse().id_token;
 
-    // send token to server 
+    // send token to server
     const xhr = new XMLHttpRequest();
     xhr.open('POST', '/tokensignin');
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
