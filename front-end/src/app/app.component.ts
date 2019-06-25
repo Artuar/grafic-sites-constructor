@@ -10,7 +10,7 @@ declare const gapi: any;
 export class AppComponent implements AfterViewInit {
   title = 'webgl-site-constructor';
 
-  public onSignIn(googleUser) {
+  onSignIn(googleUser: any) {
     const profile = googleUser.getBasicProfile();
     console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
     console.log('Name: ' + profile.getName());
