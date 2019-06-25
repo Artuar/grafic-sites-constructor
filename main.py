@@ -1,18 +1,27 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory
 from src.database import add_user, block_user, get_user
+from src.oauth import verify_token
 
 import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/artuar1990/google-credentials.json"
 
 
-app = Flask(__name__, template_folder='front')
+app = Flask(__name__, template_folder='static')
 
 
 @app.route('/')
 def hello():
     """Return a friendly HTTP greeting."""
 
-    return render_template('login.html')
+    return render_template('index.html')
+
+
+@app.route('/tokensignin', methods=["POST"])
+def tokensignin():
+    """Verify google token."""
+    token = request.form['token']
+    verify_token(token)
+    return 'responce'
 
 
 @app.route('/add-user')
@@ -41,6 +50,11 @@ def getuser():
     user = get_user(email=email)
 
     return 'Found user_id: ' + str(user.key.id)
+
+
+@app.route('/<path:path>')
+def send_js(path):
+    return send_from_directory('static', path)
 
 
 if __name__ == '__main__':
