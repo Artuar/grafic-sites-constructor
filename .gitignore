@@ -1,2 +1,4 @@
 # Static files 
 /static
+*/*.pyc
+/venv
