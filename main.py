@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, send_from_directory
-from src.database import add_user, block_user, get_user
-from src.oauth import verify_token
+from src.components.database import add_user, block_user, get_user
+from src.services.checkauth import check_authorisation
 
 import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/artuar1990/google-credentials.json"
@@ -9,19 +9,9 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/artuar1990/google-credenti
 app = Flask(__name__, template_folder='static')
 
 
-@app.route('/')
-def hello():
-    """Return a friendly HTTP greeting."""
-
-    return render_template('index.html')
-
-
-@app.route('/tokensignin', methods=["POST"])
-def tokensignin():
-    """Verify google token."""
-    token = request.form['token']
-    verify_token(token)
-    return 'responce'
+@app.route('/checkauth', methods=["GET"])
+def checkauth():
+    return check_authorisation(request)
 
 
 @app.route('/add-user')
@@ -52,9 +42,19 @@ def getuser():
     return 'Found user_id: ' + str(user.key.id)
 
 
-@app.route('/<path:path>')
+@app.route('/static/<path:path>')
 def send_js(path):
     return send_from_directory('static', path)
+
+
+@app.route('/')
+def start():
+    return render_template('index.html')
+
+
+@app.route('/<path:path>')
+def any(path):
+    return render_template('index.html')
 
 
 if __name__ == '__main__':

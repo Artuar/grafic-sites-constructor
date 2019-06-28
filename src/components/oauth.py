@@ -29,7 +29,7 @@ def verify_token(token):
         userid = idinfo['sub']
         print('idinfo', idinfo)
         print('userid', userid)
-        return userid
+        return idinfo
     except ValueError:
         # Invalid token
         print('Invalid token')
