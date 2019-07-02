@@ -25,6 +25,10 @@ export class LoginComponent implements AfterViewInit {
   onSignIn(googleUser: any) {
     const id_token = googleUser.getAuthResponse().id_token;
     this.cookie.set(GOOGLE_AUTH_COOKIE, id_token);
+    this.goToSitesPage();
+  }
+
+  goToSitesPage() {
     this.ngZone.run(() => this.router.navigateByUrl(''));
   }
 

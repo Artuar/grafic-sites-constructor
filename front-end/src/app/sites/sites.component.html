@@ -1,4 +1,6 @@
+<app-header></app-header>
 <p>
   sites works!
 </p>
-<a href="#" (click)="signOut()">Sign out</a>
+<div *ngFor="let site of sites">{{site.name}}</div>
+<div *ngIf="sites.length === 0">You dont own sites</div>

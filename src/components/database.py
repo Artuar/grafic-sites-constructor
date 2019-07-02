@@ -14,18 +14,18 @@ def create_client():
     return client_instance
 
 
-def add_user(name, email):
+def add_site(name, email):
     client=create_client()
-    key = client.key('users')
+    key = client.key('sites')
 
     users = datastore.Entity(
-        key, exclude_from_indexes=['name'])
+        key, exclude_from_indexes=['id'])
 
     users.update({
         'created': datetime.datetime.utcnow(),
         'name': name,
         'email': email,
-        'active': True
+        'body': {}
     })
 
     client.put(users)
@@ -48,22 +48,25 @@ def block_user(user_id):
         client.put(user)
 
 
-def get_user(email):
+def get_sites_by_email(email):
     client=create_client()
-    query = client.query(kind='users')
+    query = client.query(kind='sites')
     query.add_filter('email', '=', email)
-    users = []
+    sites = []
 
-    for user in query.fetch():
-        users.append(user)
+    print('get_sites_by_email')
+    for site in query.fetch():
+        print('site')
+        print(site)
+        sites.append(site)
 
         
-    if len(users) < 1:
-        raise ValueError(
-            'User is not found. Email: {}'.format(email))
+    # if len(sites) < 1:
+    #     raise ValueError(
+    #         'User is not found. Email: {}'.format(email))
     
-    if len(users) > 1:
-        raise ValueError(
-            'More than one user is found. Email: {}'.format(email))
+    # if len(sites) > 1:
+    #     raise ValueError(
+    #         'More than one user is found. Email: {}'.format(email))
 
-    return users[0]
+    return sites
