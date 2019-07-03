@@ -14,23 +14,23 @@ def create_client():
     return client_instance
 
 
-def add_site(name, email):
+def create_site(name, email, body={}):
     client=create_client()
     key = client.key('sites')
 
-    users = datastore.Entity(
+    site = datastore.Entity(
         key, exclude_from_indexes=['id'])
 
-    users.update({
+    site.update({
         'created': datetime.datetime.utcnow(),
         'name': name,
         'email': email,
-        'body': {}
+        'body': body,
     })
 
-    client.put(users)
+    client.put(site)
 
-    return users.key.id
+    return site.key.id
 
 
 def block_user(user_id):
@@ -56,8 +56,6 @@ def get_sites_by_email(email):
 
     print('get_sites_by_email')
     for site in query.fetch():
-        print('site')
-        print(site)
         sites.append(site)
 
         

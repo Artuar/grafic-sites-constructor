@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, send_from_directory, jsonify
-from src.components.database import add_site, block_user
+from src.components.database import block_user
 from src.services.checkauth import check_authorisation
 from src.services.getuser import get_user_from_token
 from src.services.getsites import get_sites
+from src.services.addsite import add_site
+
 
 import os
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/artuar1990/google-credentials.json"
@@ -26,14 +28,9 @@ def getsites():
     return jsonify(get_sites(request))
 
 
-@app.route('/add-site')
+@app.route('/addsite')
 def adduser():
-    """Add site to database."""
-    name = request.args.get('name')
-    email = request.args.get('email')
-    user_id = add_site(name=name, email=email)
-
-    return 'New user_id: ' + str(user_id)
+    return jsonify(add_site(request))
 
 
 @app.route('/block-user')

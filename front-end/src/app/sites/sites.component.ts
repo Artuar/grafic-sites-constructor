@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Site, SitesService } from './sites.service';
 import { map } from 'rxjs/operators';
 
@@ -8,7 +8,7 @@ import { map } from 'rxjs/operators';
   styleUrls: ['./sites.component.scss']
 })
 export class SitesComponent implements OnInit {
-  public sites: Site[];
+  public sites: Site[] = [];
 
   constructor(
     private getSites: SitesService,

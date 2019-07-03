@@ -2,5 +2,5 @@
 <p>
   sites works!
 </p>
-<div *ngFor="let site of sites">{{site.name}}</div>
+<app-site *ngFor="let site of sites" [site]="site"></app-site>
 <div *ngIf="sites.length === 0">You dont own sites</div>

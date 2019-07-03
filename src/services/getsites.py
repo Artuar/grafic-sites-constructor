@@ -7,8 +7,6 @@ def get_sites(request):
     sites_resp = '[]'
     user = get_user_from_token(request)
     if user:
-        print('user')
-        print(user)
         email = user['email']
         if email:
             sites_resp = get_sites_by_email(email)
