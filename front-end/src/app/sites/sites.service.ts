@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
+import { StoreState } from '../reducers';
 
 export interface Site {
   'id': number;
@@ -16,7 +18,10 @@ export interface Site {
 export class SitesService {
   private getSitesUrl = '/getsites';
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private store: Store<StoreState>,
+  ) { }
 
   private handleError(error: Error) {
     console.log('Error: ', error);
@@ -28,6 +33,11 @@ export class SitesService {
       .pipe(
         map((response: Site[]) => response),
         catchError(this.handleError)
-      );
+      ).subscribe((sites) => {
+        this.store.dispatch({
+          type: 'SET_SITES',
+          payload: sites
+        });
+      });
   }
 }

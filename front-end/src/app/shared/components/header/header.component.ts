@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { map } from 'rxjs/operators';
 import { GOOGLE_AUTH_COOKIE } from 'src/app/login/login.component.constants';
+import { Store } from '@ngrx/store';
+import { StoreState } from 'src/app/reducers';
 
 declare const gapi: any;
 
@@ -14,18 +16,33 @@ declare const gapi: any;
 })
 export class HeaderComponent implements OnInit, AfterViewInit {
   public user: User | undefined;
+  public loader = false;
 
   constructor(
     private router: Router,
     private ngZone: NgZone,
     private cookie: CookieService,
     private getUser: GetUserService,
-  ) { }
+    private store: Store<StoreState>,
+  ) {
+    if (store) {
+      store.subscribe(reduxStore => {
+        const str = reduxStore['store'];
+        if (str) {
+          this.user = str.user;
+        }
+        this.loader = false;
+      }, () =>  {
+        console.error('Error');
+        this.loader = false;
+      });
+    }
+   }
 
   ngOnInit() {
-    this.getUser.getUser()
-      .pipe(map((user: User) => user))
-      .subscribe(user => this.user = user);
+    if (!this.user) {
+      this.getUser.getUser();
+    }
   }
 
   signOut() {

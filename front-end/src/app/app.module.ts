@@ -9,7 +9,9 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { Router } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { appReduсer } from './reducers';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { Router } from '@angular/router';
     CoreModule,
     SharedModule,
     HttpClientModule,
+    StoreModule.forRoot({store: appReduсer}),
+    StoreDevtoolsModule.instrument(),
   ],
   providers: [],
   bootstrap: [AppComponent]
