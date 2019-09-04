@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Site } from '../sites.service';
 
 @Component({
@@ -8,10 +8,24 @@ import { Site } from '../sites.service';
 })
 export class SiteComponent implements OnInit {
   @Input() site: Site;
+  @Output() del = new EventEmitter();
+  @Output() edit = new EventEmitter();
+
+  public name = '';
 
   constructor() { }
 
+  rename() {
+    console.log(this.name)
+    this.edit.emit({id: this.site.id, name: this.name});
+  }
+
+  delete() {
+    this.del.emit(this.site.id);
+  }
+
   ngOnInit() {
+    this.name = this.site.name;
   }
 
 }

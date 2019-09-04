@@ -14,7 +14,7 @@ def create_client():
     return client_instance
 
 
-def create_site(name, email, body={}):
+def create_site(name, email, body):
     client=create_client()
     key = client.key('sites')
 
@@ -26,26 +26,51 @@ def create_site(name, email, body={}):
         'name': name,
         'email': email,
         'body': body,
+        'is_public': False
     })
 
     client.put(site)
+    site['id'] = site.key.id
+    return site
 
-    return site.key.id
 
-
-def block_user(user_id):
+def remove_site(email, siteid):
     client=create_client()
     with client.transaction():
-        key = client.key('users', int(user_id))
-        user = client.get(key)
+        key = client.key('sites', siteid)
+        site = client.get(key)
 
-        if not user:
+        if not site['email'] == email:
             raise ValueError(
-                'User {} does not exist.'.format(user_id))
+                'User {} does not have access to site {}.'.format(email, siteid))
 
-        user['active'] = False
+        client.delete(key)
 
-        client.put(user)
+        return siteid
+
+
+def edit_site(email, siteid, name = None, is_public = None, body = None):
+    client=create_client()
+    with client.transaction():
+        key = client.key('sites', siteid)
+        site = client.get(key)
+
+        if not site['email'] == email:
+            raise ValueError(
+                'User {} does not have access to site {}.'.format(email, siteid))
+
+        if not name == None: 
+            site['name'] = name
+
+        if not body == None: 
+            site['body'] = body
+
+        if not is_public == None: 
+            site['is_public'] = is_public
+
+        client.put(site)
+        site['id'] = site.key.id
+        return site
 
 
 def get_sites_by_email(email):
@@ -56,15 +81,19 @@ def get_sites_by_email(email):
 
     print('get_sites_by_email')
     for site in query.fetch():
+        site['id'] = site.key.id
         sites.append(site)
 
-        
-    # if len(sites) < 1:
-    #     raise ValueError(
-    #         'User is not found. Email: {}'.format(email))
-    
-    # if len(sites) > 1:
-    #     raise ValueError(
-    #         'More than one user is found. Email: {}'.format(email))
-
     return sites
+
+
+def get_site(email, siteid):
+    client=create_client()
+    key = client.key('sites', siteid)
+    site = client.get(key)
+
+    if not site['email'] == email:
+        raise ValueError(
+            'User {} does not have access to site {}.'.format(email, siteid))
+
+    return site

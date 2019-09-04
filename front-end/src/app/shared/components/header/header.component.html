@@ -1,4 +1,9 @@
-<p>
-    Hello {{user ? user.name : 'stranger :) '}}!
-</p>
-<a href="#" (click)="signOut()">Sign out</a>
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <span>
+            Hello {{user ? user.name : 'stranger :) '}}!
+        </span>
+        <span class="example-spacer"></span>
+        <button mat-button (click)="signOut()">Sign out</button>
+    </mat-toolbar-row>
+</mat-toolbar>

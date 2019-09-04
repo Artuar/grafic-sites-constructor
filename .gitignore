@@ -2,3 +2,4 @@
 /static
 *.pyc
 /venv
+google-credentials.json

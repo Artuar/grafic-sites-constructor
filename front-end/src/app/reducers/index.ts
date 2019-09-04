@@ -1,6 +1,7 @@
 import { Site } from '../sites/sites.service';
 
 import { User } from '../core/services/get-user.service';
+import { SitesComponent } from '../sites/sites.component';
 
 export interface StoreState {
   sites: Site[];
@@ -19,12 +20,22 @@ export function appReduсer(state = DEFAULT_STATE, {type, payload}) {
       return {...state, user: payload};
     case 'SET_SITES':
       return {...state, sites: payload};
+    case 'SET_SITE':
+      return {
+        ...state,
+        sites: state.sites.length
+          ? state.sites.map(site => site.id === payload.id ? payload : site)
+          : [payload]
+        };
     case 'ADD_SITE':
-      return {...state, sites: [payload.site, ...state.sites]};
+      return {...state, sites: [payload, ...state.sites]};
     case 'UPDATE_SITE':
-      return {...state, sites: state.sites.map(site => site.id === payload.id ? payload : site)};
+      return {
+        ...state,
+        sites: state.sites.map(site => site.id === payload.id ? payload : site)
+      };
     case 'DELETE_SITE':
-      return {...state, sites: state.sites.filter(site => site.id === payload.id)};
+      return {...state, sites: state.sites.filter(site => site.id !== payload.id)};
     default:
       return {...state};
   }

@@ -1,1 +1,13 @@
-<div>{{site.email}} {{site.name}} {{site.is_public}}</div>
+<div>
+    {{site.email}} 
+    <input type="text"
+           placeholder="Site name"
+           class="site_name"
+           [(ngModel)]="name"
+           (change)="rename()"/>
+    {{site.is_public}} 
+    {{site.created}}
+    <button class="delete" (click)="delete($event)">
+        Delete site
+    </button>
+</div>

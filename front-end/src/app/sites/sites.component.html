@@ -1,6 +1,60 @@
 <app-header></app-header>
-<p>
-  sites works!
-</p>
-<app-site *ngFor="let site of sites" [site]="site"></app-site>
-<div *ngIf="sites.length === 0">You dont own sites</div>
+
+<div class="content">
+  <table *ngIf="sites.length > 0" mat-table [dataSource]="sites" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let site"> {{site.email}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let site"> 
+        <mat-form-field>
+          <input matInput
+            placeholder=""
+            [(ngModel)]="site.name"
+            (change)="onRename(site.id, site.name)"/>
+        </mat-form-field>
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="is_public">
+      <th mat-header-cell *matHeaderCellDef> Publication </th>
+      <td mat-cell *matCellDef="let site"> {{site.is_public}} </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="created">
+      <th mat-header-cell *matHeaderCellDef> Created </th>
+      <td mat-cell *matCellDef="let site"> {{site.created}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>  </th>
+        <td mat-cell *matCellDef="let site">
+          <button mat-icon-button color="warn" aria-label="delete" (click)="onDelete(site.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+  </table>
+    
+<!--
+  <app-site 
+    *ngFor="let site of sites" 
+    [site]="site" 
+    (del)="onDelete($event)"
+    (edit)="onChange($event)"
+  ></app-site>
+--> 
+
+  <div *ngIf="sites.length === 0">You dont own sites</div>
+
+  <button mat-raised-button color="primary" class='add-site' (click)="addSite($event)">Add site</button>
+
+</div>
