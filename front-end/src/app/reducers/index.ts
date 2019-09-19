@@ -1,4 +1,4 @@
-import { Site } from '../sites/sites.service';
+import { Site } from '../core/services/sites.service';
 
 import { User } from '../core/services/get-user.service';
 import { SitesComponent } from '../sites/sites.component';

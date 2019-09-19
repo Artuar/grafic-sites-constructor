@@ -17,16 +17,17 @@ def create_client():
 def create_site(name, email, body):
     client=create_client()
     key = client.key('sites')
-
+    date = datetime.datetime.utcnow()
     site = datastore.Entity(
         key, exclude_from_indexes=['id'])
 
     site.update({
-        'created': datetime.datetime.utcnow(),
+        'created': date,
         'name': name,
         'email': email,
         'body': body,
-        'is_public': False
+        'is_public': False,
+        'edited': date
     })
 
     client.put(site)
@@ -68,6 +69,8 @@ def edit_site(email, siteid, name = None, is_public = None, body = None):
         if not is_public == None: 
             site['is_public'] = is_public
 
+        site['edited'] = datetime.datetime.utcnow()
+
         client.put(site)
         site['id'] = site.key.id
         return site
@@ -91,6 +94,7 @@ def get_site(email, siteid):
     client=create_client()
     key = client.key('sites', siteid)
     site = client.get(key)
+    site['id'] = site.key.id
 
     if not site['email'] == email:
         raise ValueError(

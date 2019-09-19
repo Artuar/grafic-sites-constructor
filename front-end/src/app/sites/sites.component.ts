@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Site, SitesService } from './sites.service';
-import { map } from 'rxjs/operators';
+import { Site, SitesService } from '../core/services/sites.service';
 import { Store } from '@ngrx/store';
 import { StoreState } from '../reducers';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sites',
@@ -18,12 +18,13 @@ export class SitesComponent implements OnInit {
   constructor(
     private store: Store<StoreState>,
     private sitesService: SitesService,
+    private router: Router,
   ) {
     if (store) {
       store.subscribe( reduxStore => {
         const str = reduxStore['store'];
         if (str) {
-          this.sites = str.sites;
+          this.sites = str.sites.sort((a: Site, b: Site) => b.edited_time - a.edited_time);
         }
         this.loader = false;
       }, () =>  {
@@ -49,8 +50,12 @@ export class SitesComponent implements OnInit {
     this.sitesService.edit(siteChanges);
   }
 
+  openEditor(id: number) {
+    this.router.navigateByUrl(`editor/${id}`);
+  }
+
   ngOnInit() {
-    if (!this.sites.length) {
+    if (this.sites.length <= 1) {
       this.sitesService.getAll();
     }
   }

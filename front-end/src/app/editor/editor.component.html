@@ -1,0 +1,15 @@
+<app-header></app-header>
+
+
+<mat-form-field>
+  <input
+      *ngIf="site"
+      matInput
+      placeholder=""
+      [(ngModel)]="site.name"
+      (change)="onRename(site.name)"/>
+</mat-form-field>
+
+<p>
+  editor works! {{id}}  {{site && site.edited}}
+</p>

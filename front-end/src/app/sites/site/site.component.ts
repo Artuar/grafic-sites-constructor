@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Site } from '../sites.service';
+import { Site } from '../../core/services/sites.service';
 
 @Component({
   selector: 'app-site',
@@ -16,7 +16,6 @@ export class SiteComponent implements OnInit {
   constructor() { }
 
   rename() {
-    console.log(this.name)
     this.edit.emit({id: this.site.id, name: this.name});
   }
 

@@ -9,3 +9,45 @@ table {
 .add-site {
     margin-top: 24px;
 }
+
+.item {
+    padding: 12px;
+    margin: 12px;
+}
+
+.mat-card-actions {
+    display: flex;
+    align-items: center;
+}
+
+.example-spacer {
+    flex: 1 1 auto;
+}
+
+.date {
+    font-size: 14px;
+    padding-left: 24px;
+}
+
+img {
+    height: 80px;
+    width: 200px;
+    padding: 12px 12px 0 12px;
+    cursor: pointer;
+}
+
+.add-card {
+    width: 192px;
+    height: 192px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 12px;
+    margin: 12px;
+}
+
+.sites-list {
+    display: flex;
+    flex-wrap: wrap;
+    // justify-content: center;
+}

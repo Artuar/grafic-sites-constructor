@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { CookieService } from 'ngx-cookie-service';
 import { AuthService } from './services/auth.service';
+import { SitesService } from './services/sites.service';
 
 @NgModule({
   declarations: [],
@@ -12,6 +13,7 @@ import { AuthService } from './services/auth.service';
   providers: [
     CookieService,
     AuthService,
+    SitesService
   ]
 })
 export class CoreModule {

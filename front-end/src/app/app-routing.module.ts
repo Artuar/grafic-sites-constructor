@@ -10,6 +10,11 @@ const routes: Routes = [
     component: LoginComponent,
   },
   {
+    path: 'editor/:id',
+    loadChildren: './editor/editor.module#EditorModule',
+    canActivate: [AuthGuardService]
+  },
+  {
     path: '',
     loadChildren: './sites/sites.module#SitesModule',
     canActivate: [AuthGuardService]

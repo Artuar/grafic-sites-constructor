@@ -3,13 +3,20 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
-import { StoreState } from '../reducers';
+import { StoreState } from '../../reducers';
 
 export interface Site {
   'id': number;
   'name': string;
   'is_public': boolean;
   'body': string;
+  'created': string;
+  'edited': string;
+  'created_time': number;
+  'edited_time': number;
+}
+
+export interface SiteContent {
 }
 
 @Injectable({
@@ -17,7 +24,7 @@ export interface Site {
 })
 export class SitesService {
   private getAllSitesUrl = '/getsites';
-  private getSiteUrl = '/getsites';
+  private getSiteUrl = '/getsite';
   private addSiteUrl = '/addsite';
   private deleteSiteUrl = '/deletesite';
   private editSiteUrl = '/changesite';
@@ -38,6 +45,8 @@ export class SitesService {
         map((response: Site) => response),
         catchError(this.handleError)
       ).subscribe((site) => {
+        site.created_time = new Date(site.created).getTime();
+        site.edited_time = new Date(site.edited).getTime();
         this.store.dispatch({
           type: 'SET_SITE',
           payload: site
@@ -48,7 +57,13 @@ export class SitesService {
   getAll() {
     return this.http.get(this.getAllSitesUrl)
       .pipe(
-        map((response: Site[]) => response),
+        map((response: Site[]) => {
+          return response.map(site => {
+            site.created_time = new Date(site.created).getTime();
+            site.edited_time = new Date(site.edited).getTime();
+            return site;
+          });
+        }),
         catchError(this.handleError)
       ).subscribe((sites) => {
         this.store.dispatch({

@@ -13,6 +13,7 @@ import { StoreModule } from '@ngrx/store';
 import { appReduсer } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditorModule } from './editor/editor.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     StoreModule.forRoot({store: appReduсer}),
     StoreDevtoolsModule.instrument(),
     BrowserAnimationsModule,
+    EditorModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
