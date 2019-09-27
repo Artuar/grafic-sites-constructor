@@ -3,6 +3,7 @@ import { Site, SitesService } from '../core/services/sites.service';
 import { Store } from '@ngrx/store';
 import { StoreState } from '../reducers';
 import { Router } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-sites',

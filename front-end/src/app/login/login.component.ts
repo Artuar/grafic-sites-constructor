@@ -41,6 +41,7 @@ export class LoginComponent implements AfterViewInit {
         theme: 'light',
         onsuccess: param => this.onSignIn(param),
         onfailure: () => this.onFailure(),
+        onSignIn: () => this.goToSitesPage(),
     });
   }
 

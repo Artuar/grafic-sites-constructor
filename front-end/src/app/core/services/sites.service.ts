@@ -83,6 +83,8 @@ export class SitesService {
       .pipe(
         catchError(this.handleError)
       ).subscribe((site: Site) => {
+        site.created_time = new Date(site.created).getTime();
+        site.edited_time = new Date(site.edited).getTime();
         this.store.dispatch({
           type: 'ADD_SITE',
           payload: site

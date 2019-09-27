@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Site, SitesService, SiteContent } from '../core/services/sites.service';
 import { Store } from '@ngrx/store';
 import { StoreState } from '../reducers';
@@ -19,6 +19,7 @@ export class EditorComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private store: Store<StoreState>,
     private sitesService: SitesService,
+    private router: Router,
   ) {
     if (this.activatedRoute) {
       this.activatedRoute.params.subscribe(params => {
@@ -51,6 +52,7 @@ export class EditorComponent implements OnInit {
 
   onDelete() {
     this.sitesService.delete(this.id);
+    this.router.navigateByUrl('');
   }
 
   onRename(name: string) {
